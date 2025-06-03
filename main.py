@@ -32,7 +32,7 @@ driver.set_page_load_timeout(30)
 driver.implicitly_wait(10)
 def likes():
     global counts
-    
+
     # спрашиваем настройки
     likes = int(input("лайков нужно накрутить(лучше не ровное например 395): "))
     url = input("ссылка на киса(энтер чтобы накрутить на котю(разрабочик)): ")
@@ -56,7 +56,7 @@ def likes():
             like_btn.click()
             counts += 1
             print(f"{green}+1 лайк | {magneta}Всего: {counts} | {cyan}Осталось: {likes - counts}{reset} | :3")
-        
+
             # если накрутили число заканчивающееся на 00 (например 500,1000,100 и тд)
             if str(counts)[-2:] == "00":
                 print(f"{blue}=== {counts} лайков! :3 ==={reset}")
@@ -66,10 +66,10 @@ def likes():
             driver.delete_all_cookies()
             driver.execute_script("window.localStorage.clear();")
             driver.refresh()
-        
+
             # ждем 3-5 секунды
             time.sleep(random.randint(3, 5))
-        
+
         except Exception as e:
             print(f"{red}Ошибка на итерации {counts + 1}: {e}{reset}")
             print(f"{cyan}Пробуем снова через 5 секунд...{reset}")
@@ -136,6 +136,10 @@ def moeny():
                 print(f"{red}Критическая ошибка, завершаем работу{reset}")
                 break
 
+    # закрываем браузер
+    driver.quit()
+    print(f"{green}Готово! Накручено {counts} монеток! :3{reset}")
+
 
 if __name__ == "__main__":
     # безопасная проверка пароля(не хранит пароль)
@@ -174,6 +178,3 @@ if __name__ == "__main__":
         moeny()
     else:
         print(red + "не понял" + reset)
-    
-
-    
