@@ -92,48 +92,73 @@ def moeny():
     global counts
     moeny = int(input(cyan + "Сколько нужно накрутить монеток: " + reset))
     url = input(cyan + "ссылка на заработоть монетки(cybercatbot.com/topup?data=...): " + reset)
-    if requests.get(url).status_code == 200:
-        print(f"{magneta}=== Начинаем накрутку монет ==={reset}")
-        print(f"id: {url[-24:]}")
-        driver.get(url)
-    else:
-        print(f"{red}Ошибка загрузки{reset}")
+    
+    try:
+        if requests.get(url).status_code == 200:
+            print(f"{magneta}=== Начинаем накрутку монет ==={reset}")
+            print(f"id: {url[-24:]}")
+            driver.get(url)
+            # Ждем полной загрузки страницы
+            WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.TAG_NAME, "body")))
+        else:
+            print(f"{red}Ошибка загрузки{reset}")
+            return
+    except Exception as e:
+        print(f"{red}Ошибка при загрузке страницы: {e}{reset}")
         return
+    
     for i in range(moeny):
         try:
-            # нажимаем Начать
-            start_btn = driver.find_element(By.XPATH,'//*[text()="Начать"]')
+            # Ждем и нажимаем Начать
+            start_btn = WebDriverWait(driver, 15).until(
+                EC.element_to_be_clickable((By.XPATH, '//*[text()="Начать"]'))
+            )
             start_btn.click()
-            # получаемтекст елемента с ксс селектром .code
-            code = driver.find_element(By.CSS_SELECTOR,'.sc-hKgKIp.coIFTS').text
+            
+            # Ждем появления кода и получаем текст
+            code_element = WebDriverWait(driver, 15).until(
+                EC.presence_of_element_located((By.CSS_SELECTOR, '.sc-hKgKIp.coIFTS'))
+            )
+            code = code_element.text
             print(code)
 
-            # разбивваем строку на список ("лол" ->["л","о","л"])
-            code = list(code)
-            for i in code:
-                print(i)
-                cod = driver.find_element(By.XPATH,f"//*[text()='{i}']")
-                cod.click()
-            time.sleep(5)
-            #driver.find_element(By.XPATH,"//*[text()='Получить монетку']").click
-            finnal = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, "//*[text()='Получить монетку']")))
-            time.sleep(3)
-            driver.refresh()
+            # Вводим код
+            code_chars = list(code)
+            for char in code_chars:
+                print(char)
+                char_btn = WebDriverWait(driver, 10).until(
+                    EC.element_to_be_clickable((By.XPATH, f"//*[text()='{char}']"))
+                )
+                char_btn.click()
+                time.sleep(0.5)  # Небольшая задержка между кликами
+            
+            # Ждем и нажимаем "Получить монетку"
+            final_btn = WebDriverWait(driver, 15).until(
+                EC.element_to_be_clickable((By.XPATH, "//*[text()='Получить монетку']"))
+            )
+            final_btn.click()
+            
             counts += 1
             print(f"{green}+1 монетка | {magneta}Всего: {counts} | {cyan}Oсталось: {moeny - counts}{reset} | :3")
+            
             if str(counts)[-2:] == "00":
                 print(f"{blue}=== {counts} монеток! :3 ==={reset}")
+            
+            # Перезагружаем страницу и ждем
             driver.refresh()
+            WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.TAG_NAME, "body")))
             time.sleep(random.randint(3, 5))
+            
         except Exception as e:
-            print(f"{red}Ошибка на итерации {counts + 1}: {e}{reset}")
+            print(f"{red}Ошибка на итерации {counts + 1}: {str(e)}{reset}")
             print(f"{cyan}Пробуем снова через 5 секунд...{reset}")
             time.sleep(5)
             try:
                 driver.refresh()
+                WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.TAG_NAME, "body")))
                 time.sleep(3)
-            except:
-                print(f"{red}Критическая ошибка, завершаем работу{reset}")
+            except Exception as refresh_error:
+                print(f"{red}Критическая ошибка при обновлении: {refresh_error}{reset}")
                 break
 
     # закрываем браузер
