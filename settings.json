@@ -1,0 +1,32 @@
+{
+    "links1": [
+        "https://cybercatbot.com/cats/67ab782d1b8b88c53be06c67"
+    ],
+    "links2": [
+        "https://cybercatbot.ru/topUpNew?data=67ab780c1b8b88c53be06c41&catId=67ab782d1b8b88c53be06c67"
+    ],
+    "proxy": false,
+    "sleeps": {
+        "likes": [
+            [
+                1,
+                3
+            ],
+            [
+                1,
+                3
+            ]
+        ],
+        "moeny": [
+            [
+                1,
+                3
+            ],
+            [
+                3,
+                5
+            ]
+        ]
+    },
+    "headless": false
+}
