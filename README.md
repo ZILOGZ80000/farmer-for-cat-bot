@@ -2,7 +2,7 @@
 # farmer-for-cat-bot
 
 ## Description
-A small Python tool for automatically generating likes and in-game "coins" for cats in [kitty boot](t.me/Kisik_Kotik_Bot )
+A small Python tool for automatically generating likes and in-game "coins" for cats in [cat bot](t.me/Kisik_Kotik_Bot )
 Uses Selenium to automate actions in the Firefox browser.
 
 ## Features
