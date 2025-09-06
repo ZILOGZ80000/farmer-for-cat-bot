@@ -35,13 +35,16 @@ Uses Selenium to automate actions in the Firefox browser.
     cd farmer-for-cat-bot
     ```
 
-2. **Install the** dependencies: bash pip install selenium requests fake-useragent free-proxy
+2. **Install the** dependencies: 
+```
+ pip install selenium requests fake-useragent free-proxy
+```
 
-##Launch Run the main script:
+## Launch Run the main script:
 
-python main.py
+`python main.py`
 
-After launching, an interactive menu will appear in the console, where you can select an action (increase likes, coins, or adjust settings).`
+After launching, an interactive menu will appear in the console, where you can select an action (increase likes, coins, or adjust settings).
 
 ### Option 2 (only if you have a github account):
 
@@ -87,9 +90,12 @@ After launching, an interactive menu will appear in the console, where you can s
     cd farmer-for-cat-bot
     ```
 
-2. **Установите зависимости**: bash pip install selenium requests fake-useragent free-proxy
+2. **Установите зависимости**: 
+```bash 
+pip install selenium requests fake-useragent free-proxy
+```
 
-## Запуск Запустите основной скрипт:
+## Запустите основной скрипт:
 
 python main.py
 
