@@ -1,3 +1,12 @@
 {
-  "version":0.1
+  "last": {
+    "version":0.9,
+    "tg_post":"...",
+    "desc":"накрутка жизек и еще чето там" 
+  }
+  "0.1": {
+    "version":0.1,
+    "tg_post":"https://t.me/sushi_studios/169",
+    "desc":"первый релиз"
+  }
 }
