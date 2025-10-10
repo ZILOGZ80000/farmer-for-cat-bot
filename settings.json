@@ -28,5 +28,11 @@
             ]
         ]
     },
-    "headless": false
+    "headless": true,
+    "start_init": true,
+    "tg": {
+        "connected": false,
+        "id": null,
+        "hash": null
+    }
 }
