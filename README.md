@@ -5,7 +5,6 @@
 
 ![Version 1.1.3](https://gist.githubusercontent.com/ZILOGZ80000/4ef8ad0d48867d92ece3293b7fcf52ba/raw/17815b478180b61d3a2c026ac85aac2990a9890d/version.svg) <!-- Original badge host may not work properly -->
 
-# === English ===
 
 ## Description  
 A Python tool for automated farming of hearts, likes, and in-game coins for [Cat Bot](t.me/Kisik_Kotik_Bot).  
@@ -55,7 +54,7 @@ Launch after installation with: `kb`
 
 ## Support/Suggest an Idea
 
-Write to t.me/humansiamnothuman (<span style="color:red">I might not notice or reply for a million years<span style="color:white">),  
+Write to t.me/humans_i_am_not_human (<span style="color:red">I might not notice or reply for a million years<span style="color:white">),  
 but it’s better to report bugs in GitHub issues, and for everything else — in discussions.
 
 
