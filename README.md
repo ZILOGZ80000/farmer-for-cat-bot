@@ -5,8 +5,6 @@
 
 ![Version 1.0](https://gist.githubusercontent.com/ZILOGZ80000/4ef8ad0d48867d92ece3293b7fcf52ba/raw/f18967f338fccb9873e6eba6c686bd4f84316c51/version.svg) <!-- Original badge host may not work properly -->
 
-# === English ===
-
 ## Description  
 A Python tool for automated farming of hearts, likes, and in-game coins for [Cat Bot](t.me/Kisik_Kotik_Bot).  
 Uses Selenium with Firefox to simulate human-like interactions.
