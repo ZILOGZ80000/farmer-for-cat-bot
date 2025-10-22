@@ -3,8 +3,9 @@
 # === English ===
 # farmer-for-cat-bot 
 
-![Version 1.1.3](https://gist.githubusercontent.com/ZILOGZ80000/4ef8ad0d48867d92ece3293b7fcf52ba/raw/17815b478180b61d3a2c026ac85aac2990a9890d/version.svg) <!-- Original badge host may not work properly -->
+![Version 1.0](https://gist.githubusercontent.com/ZILOGZ80000/4ef8ad0d48867d92ece3293b7fcf52ba/raw/f18967f338fccb9873e6eba6c686bd4f84316c51/version.svg) <!-- Original badge host may not work properly -->
 
+# === English ===
 
 ## Description  
 A Python tool for automated farming of hearts, likes, and in-game coins for [Cat Bot](t.me/Kisik_Kotik_Bot).  
@@ -13,7 +14,8 @@ Uses Selenium with Firefox to simulate human-like interactions.
 ## Features  
 ⦁ **Like Farming:** Automates likes for cats via specified links.  
 ⦁ **Coin Mining:** Plays mini-games to accumulate coins.  
-⦁ **Heart Cheating:** Manages Telegram accounts to interact with the bot.  
+⦁ **Heart Cheating:** Manages Telegram accounts to interact with the bot. 
+⦁ **Items Cheating:** Manages Telegram accounts to interact with the bot.  
 ⦁ **Settings Persistence:** Stores default links and parameters in `settings.json`.  
 ⦁ **Proxy Support:** Uses free proxies for anonymity and bypassing limits.  
 ⦁ **Humanized Timing:** Randomized delays to avoid detection.  
@@ -54,7 +56,7 @@ Launch after installation with: `kb`
 
 ## Support/Suggest an Idea
 
-Write to t.me/humans_i_am_not_human (<span style="color:red">I might not notice or reply for a million years<span style="color:white">),  
+Write to t.me/humansiamnothuman (<span style="color:red">I might not notice or reply for a million years<span style="color:white">),  
 but it’s better to report bugs in GitHub issues, and for everything else — in discussions.
 
 
@@ -64,7 +66,7 @@ but it’s better to report bugs in GitHub issues, and for everything else — i
 # === Русский ===
 # Накрутка для котика ботика 
 
-![Version 1.1.3](https://gist.githubusercontent.com/ZILOGZ80000/4ef8ad0d48867d92ece3293b7fcf52ba/raw/17815b478180b61d3a2c026ac85aac2990a9890d/version.svg) <!-- хз почему у меня не работает оригинальный сайт  -->
+![Version 1.0](https://gist.githubusercontent.com/ZILOGZ80000/4ef8ad0d48867d92ece3293b7fcf52ba/raw/f18967f338fccb9873e6eba6c686bd4f84316c51/version.svg) <!-- хз почему у меня не работает оригинальный сайт  -->
 
 ## Описание
 Небольшой Python-инструмент для автоматической накрутки жизек,лайков и внутриигровых "монеток" для котов в [котике ботике](t.me/Kisik_Kotik_Bot)
@@ -76,6 +78,8 @@ but it’s better to report bugs in GitHub issues, and for everything else — i
 ⦁   **Накрутка монеток:** Проходит мини-игры для заработка монеток.
 
 ⦁   **Накрутка жизек:** Управляет телеграм акаунтом и пишет боту 
+
+⦁   **Накрутка предметов:** Управляет телеграм акаунтом и пишет боту 
 
 ⦁   **Сохранение настроек:** Сохраняет стандартные ссылки и параметры в `settings.json`.
 

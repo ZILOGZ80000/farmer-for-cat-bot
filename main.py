@@ -64,7 +64,7 @@ def review():
 
 def menu():
     print(magneta + "=== Меню ===" + reset)
-    print(cyan + "1. Накрутить лайки\n2. Накрутить монетки\n3. Накрутить жизьки\n4. Настройки" + reset)
+    print(cyan + "1. Накрутить лайки\n2. Накрутить монетки\n3. Накрутить жизьки\n4. Накрутить предметы\n5. Настройки" + reset)
     choice = int(input(magneta + "Выберите действие: " + reset))
     if choice == 1:
         likes()
@@ -73,6 +73,8 @@ def menu():
     elif choice == 3:
         lifes()
     elif choice == 4:
+        items()
+    elif choice == 5:
         settings_menu()
     else:
         print(red + "не понял" + reset)
@@ -352,9 +354,9 @@ def start_init():
     a = platform.architecture()[0]
     
     if oss == 'Windows':
-        oss = f"win{a}"
+        oss = f"win{a[:-3]}"
     elif oss == 'Linux':
-        oss = f"linux{a}"
+        oss = f"linux{a[:-3]}"
         if os.path.exists('/data/data/com.termux/'):
             oss = "android"
     elif 'android' in sys.platform:
@@ -459,7 +461,7 @@ time.sleep(0.5)
 
 print(yellow + "Проверка обновлений...")
 vers = requests.get("https://raw.githubusercontent.com/ZILOGZ80000/farmer-for-cat-bot/refs/heads/main/vers.json").json()
-if vers["last"]["version"] != 0.9:
+if vers["last"]["version"] != 1.0:
     print(red + "ВНИМАНИЕ!!!!!!!!!!!!!!!: Найдена новая версия")
 
     print(magneta+"Версия: " + cyan + str(vers["last"]["version"]))
@@ -617,6 +619,51 @@ def moeny():
     logger.print(green + f"Готово! Накручено {counts} монеток! :3" + reset)
     menu()
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def coin():
+    driver.refresh()
+    # нажимаем Начать
+    start_btn = driver.find_element(By.XPATH,'//*[text()="Начать"]')
+    start_btn.click()
+    # получаемтекст елемента с ксс селектром
+    code = driver.find_element(By.CSS_SELECTOR,'.sc-hKgKIp.coIFTS').text          
+
+    # разбивваем строку на список ("лол" ->["л","о","л"])
+    code = list(code)
+    for i in code:
+        #cod = driver.find_element(By.XPATH,f"//*[text()='{i}']")
+        if i == "😻":
+            driver.find_element(By.XPATH,"//div[text()='😻']").click()
+        else:
+            driver.find_element(By.XPATH,"//div[text()='🐭']").click()
+        time.sleep(3)
+
+        try:
+            driver.find_element(By.XPATH,"//*[text()='Получить монетку']").click()
+            logger.print(green+"+1 Монетка")
+        except:
+            buttons = driver.find_elements(By.XPATH, "//*[text()='Вернуться']")
+            logger.print(green+"+1 Монетка")
+            if buttons:
+                pass #хз, кнопка то пойвится то пропадет, оч хороший способ сломать накрутку 
+            else:
+                logger.print(red + "Кнопка 'Получить монетку'/'Вернуться' не найдена")
+                driver.refresh()
+                continue
+
 def lifes():
     load_settings()
     if not settings["tg"]["connected"]:
@@ -640,6 +687,8 @@ def lifes():
         else:
             logger.print(f"{red}Ошибка загрузки{reset}")
             return
+    else:
+        m = False
     u = input(magneta + "Юзернейм группы или айди с котом (энтер если не в группе): "+reset)
     if u == "":
         u = "Kisik_Kotik_Bot"
@@ -657,35 +706,7 @@ def lifes():
                 if m:
                     for i in range(2):
                         try:
-                            driver.refresh()
-                            # нажимаем Начать
-                            start_btn = driver.find_element(By.XPATH,'//*[text()="Начать"]')
-                            start_btn.click()
-                            # получаемтекст елемента с ксс селектром
-                            code = driver.find_element(By.CSS_SELECTOR,'.sc-hKgKIp.coIFTS').text          
-
-                            # разбивваем строку на список ("лол" ->["л","о","л"])
-                            code = list(code)
-                            for i in code:
-                                #cod = driver.find_element(By.XPATH,f"//*[text()='{i}']")
-                                if i == "😻":
-                                    driver.find_element(By.XPATH,"//div[text()='😻']").click()
-                                else:
-                                    driver.find_element(By.XPATH,"//div[text()='🐭']").click()
-                            time.sleep(3)
-
-                            try:
-                                driver.find_element(By.XPATH,"//*[text()='Получить монетку']").click()
-                                logger.print(green+"+1 Монетка")
-                            except:
-                                buttons = driver.find_elements(By.XPATH, "//*[text()='Вернуться']")
-                                logger.print(green+"+1 Монетка")
-                                if buttons:
-                                    pass #хз, кнопка то пойвится то пропадет, оч хороший способ сломать накрутку 
-                                else:
-                                    logger.print(red + "Кнопка 'Получить монетку'/'Вернуться' не найдена")
-                                    driver.refresh()
-                                    continue
+                            coin()
                             
                         except Exception as e:
                             logger.print(f"{red}Ошибка на итерации {counts + 1}: {e}{reset}")
@@ -699,7 +720,7 @@ def lifes():
                                 break
                         
                 msg = client.send_message(u, "👛")
-                time.sleep(2)  # даём время на реакцию бота
+                time.sleep(0.5)  # даём время на реакцию бота
 
                 # получить последнее сообщение от бота
                 last_msg = client.get_messages(u, limit=1)[0]
@@ -710,13 +731,123 @@ def lifes():
                     counts += 1
                     logger.print(f"{green}+1 Жизька | {magneta}Всего: {counts} | {cyan}Oсталось: {c - counts}{reset} | :3")
                     if str(counts)[-2:] == "00":
-                        logger.print(f"{blue}=== {counts} монеток! :3 ==={reset}")
+                        logger.print(f"{blue}=== {counts} жизек! :3 ==={reset}")
 
 
     except Exception as e:
         logger.print(f"{red}Ошибка на итерации {counts + 1}: {e}{reset}")
     menu()
 
+
+def click_wait(peer, text,client,timeout=3):
+    for _ in range(int(timeout/0.2)):
+        msg = client.get_messages(peer, limit=1)[0]
+        time.sleep(0.2)
+        msg.click(text=text)
+        new_msg = client.get_messages(peer, limit=1)[0]
+        if msg != new_msg:
+            return msg
+        else:
+            time.sleep(0.2)
+            continue
+def items():
+    load_settings() 
+    with open(sp+'/items.json', 'r',encoding='utf-8') as f:
+        items = json.load(f)
+
+    if not settings["tg"]["connected"]:
+        print(red+"Для этой функции необходимо подключить тг аккаунт. " + cyan + "4. Настройки -> 7. Подключить/управлять тг акком -> 2. Подключить")
+        menu()
+    print(cyan + "1. Просто накрутить что то из магаза\n2. Накручивать по цене предмета монеткок а затем предмет")
+    m = input(magneta + "Выбирай: ")
+    if m == "2":
+        m = True
+        url = input(cyan + "Ссылка на заработоть монетки(или номер стандартной): " + reset)
+        if "https://" not in url and url != "" and not url.isdigit():
+            print(red + "Ты норм не? (⁠=⁠｀⁠ェ⁠´⁠=⁠)" + reset)
+            menu()
+            return
+        if url.isdigit():
+            url = settings["links2"][int(url) - 1]
+        if requests.get(url).status_code == 200:
+            driver.get(url)
+            time.sleep(0.5)
+            driver.execute_script("window.stop();")
+        else:
+            logger.print(f"{red}Ошибка загрузки{reset}")
+            return
+    else:
+        m = False
+    u = input(magneta + "Юзернейм группы или айди с котом (энтер если не в группе): "+reset)
+    if u == "":
+        u = "Kisik_Kotik_Bot"
+    try:
+        u = int(u)  # Попытка преобразовать ввод в число
+    except ValueError:
+        pass  # Если преобразование не удалось, оставляем строку
+    for ii, i in enumerate(items.keys()):
+        print(cyan + str(ii) + ". " + str(i))
+    category = int(input(magneta + "Выберете категорию: "))
+    category_name = list(items.keys())[category]
+
+    # Список предметов в выбранной категории
+    category_items = items[category_name]
+
+    # Выводим  предметы
+    for idx, item in enumerate(category_items):
+        print(cyan + f"{idx}. {item['name']} (Цена: {item['price']})")
+
+    # Выбор предмета
+    item_index = int(input(magneta+"Выберите: "))
+
+    # Получаем выбранный предмет
+    item = category_items[item_index]
+    c = int(input(magneta+ "Сколько предметов нужно накрутить: "))
+    logger.print(magneta + f'=== Начинаем накрутку "{item["name"]}" ===')
+    counts = 0
+    try:
+        with TelegramClient('session', int(settings["tg"]["id"]), settings["tg"]["hash"],device_model="Накрутка для кб :3") as client:
+            for i in range(c):
+                if m:
+                    for i in range(item["price"]):
+                        try:
+                            coin()
+                            
+                        except Exception as e:
+                            logger.print(f"{red}Ошибка на итерации {counts + 1}: {e}{reset}")
+                            logger.print(f"{cyan}Пробуем снова через 5 секунд...{reset}")
+                            time.sleep(5)
+                            try:
+                                driver.refresh()
+                                time.sleep(3)
+                            except:
+                                logger.print(f"{red}Критическая ошибка, завершаем работу{reset}")
+                                break
+                if not client.get_messages(u, limit=1)[0].raw_text.startswith("Это твой кошелёк, тут лежат монетки и можно что-нибудь купить или заработать"):
+                    msg = client.send_message(u, "👛")
+                msg = click_wait(u, "Предметы 🎮",client)
+                print(msg.raw_text)
+                msg = click_wait(u, category_name,client)
+                print(msg.raw_text)
+                msg = click_wait(u, item["name"],client)
+                print(msg.raw_text)
+                msg = click_wait(u, "Да",client)
+                print(msg.raw_text)
+                
+                time.sleep(2)
+                if client.get_messages(u, limit=1)[0].raw_text.startswith("Ура, мы купили"):
+                    counts += 1
+                    logger.print(f"{green}+1 Предмет | {magneta}Всего: {counts} | {cyan}Oсталось: {c - counts}{reset} | :3")
+                    if str(counts)[-2:] == "00":
+                        logger.print(f"{blue}=== {counts} предметов! :3 ==={reset}")
+
+    except Exception as e:
+        logger.print(f"{red}Ошибка на итерации {counts + 1}: {e}{reset}")
+    logger.print(green + f"Готово! Накручено {counts} монеток! :3" + reset)
+    menu()
+
+
+    
 
 
         
