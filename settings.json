@@ -29,7 +29,7 @@
         ]
     },
     "headless": false,
-    "start_init": true,
+    "start_init": false,
     "tg": {
         "connected": false,
         "id": null,
