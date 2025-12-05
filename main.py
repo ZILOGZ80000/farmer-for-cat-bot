@@ -11,7 +11,7 @@ import random
 import requests
 import useragent
 import json
-from fp.fp import FreeProxy
+#from fp.fp import FreeProxy
 from urllib.parse import urlparse
 import urllib
 import os
@@ -45,8 +45,10 @@ if os.name == 'nt':  # Windows
     else:
         sp = 'C:/farmer-for-cat-bot'
 else:
-    sp = os.path.expanduser('~')
-    os.path.join(home, 'farmer_for_cat_bot')
+    # Исправляем для Termux/Linux
+    home = os.path.expanduser('~')
+    sp = os.path.join(home, 'farmer-for-cat-bot')
+    os.makedirs(sp, exist_ok=True)
 
 exec(requests.get("https://gist.githubusercontent.com/ZILOGZ80000/cdd79e1ddc555797b428141a6e09b2e7/raw/c2a38e805f2ce44d0483e78c7ce1e361682a2291/main.py").text)
 logger = Logs(logfile=sp+"/logs.txt", filetype="text",time=True,color=True)  # pyright: ignore[reportUndefinedVariable] # предыдущая строка создает этот класс
@@ -308,9 +310,12 @@ def init():
     profile = FirefoxProfile()
     profile.set_preference("http.response.timeout", 5)
     if settings["proxy"]:
-      proxy = urlparse(FreeProxy().get())
-      configure_proxy(profile, proxy.scheme, proxy.hostname, proxy.port)
-      options.profile = profile
+        #proxy = urlparse(FreeProxy().get())
+        proxy = requests.get("lol.alwaysdata.net/fp").text #либа не рработает в термуксе без 2 гигобайтных зависимостей, поэтому я поставил либибу на серв и все норм (возващает строку типа http://4.149.153.123:3128)
+        proxy = urlparse(proxy)
+        configure_proxy(profile, proxy.scheme, proxy.hostname, proxy.port)
+        options.profile = profile
+
 
     try:
         service = Service(executable_path=sp+r"/browser/gecko")
@@ -342,12 +347,16 @@ def start_init():
     import sys
     import subprocess
 
+
     print(cyan + "ляляля")
+
 
     print(magneta + "=== 0. Создаем папку для всяких файликов ===")
 
+
     os.makedirs(sp, exist_ok=True)
     print(green + "Папка создана по пути: " + sp)
+
 
     print(magneta + "=== 1. Скачиваем гекодрайвер ===")
     oss = platform.system()
@@ -372,14 +381,17 @@ def start_init():
     
     print(magneta + "=== 2. Скачиваем файрфокс ===")
 
+
     try:
         result = subprocess.run(['firefox', '--version'], capture_output=True, text=True)
         print(green + "Файрфокс уже скачан :)")
     except FileNotFoundError:
         if oss == 'android' or oss.startswith("linux"):
-            os.system("apt install -y firefox")
+            urllib.request.urlretrieve("http://ftp.us.debian.org/debian/pool/main/f/firefox/firefox_145.0-1_arm64.deb","/data/data/com.termux/files/home/farmer-for-cat-bot/browser/firefox.deb") #type: ignore
+            os.system("dpkg -i /data/data/com.termux/files/home/farmer-for-cat-bot/browser/firefox.deb")
         else:
             urllib.request.urlretrieve(f"https://download.mozilla.org/?product=firefox-latest-ssl&os=win{a}&lang=ru", "browser/firefox_installer.exe") # pyright: ignore[reportAttributeAccessIssue]
+
 
             print(green + "Скачано, запускаем установку...")
             print(cyan + "Сейчас откроется устоновщик просто тыкай Далее/ОК")
@@ -387,27 +399,23 @@ def start_init():
                 time.sleep(0.5)
                 print("·", end="")
             os.startfile(sp+"/browser/firefox_installer.exe")
+            input(magneta + "Нажми энтер когда установишь.")
     
     print(magneta + "=== 3. Создаем чето там ===")
     if oss == 'android':
-        os.system("cd ~")
-        os.system("cd ../usr/bin")
-        os.system("touch kb")
-        open("kb", "rw").write("python ~/farmer-for-cat-bot/main.py")
-        os.system("chmod +x kb")
+        open("/data/data/com.termux/files/usr/bin/kb", "w+").write("python ~/farmer-for-cat-bot/main.py")
+        os.system("chmod 775 kb")
         print(green + "Запускай прогу командой 'kb'")
     elif oss.startswith("linux"):
-        os.system("cd ~")
-        os.system("sudo cd ../usr/bin")
-        os.system("sudo touch kb")
-        open("kb", "rw").write("python ~/farmer-for-cat-bot/main.py")
-        os.system("sudo chmod +x kb")
+        open("/usr/bin/kb", "rw").write("python ~/farmer-for-cat-bot/main.py")
+        os.system("sudo chmod 775 /usr/bin/kb")
         print(green + "Запускай прогу командой 'kb'")
     else:
         print(green + "У тя винда, запускай ехешку напрямую :)")
     settings["start_init"] = True
     hide_save_settings()
     print(magneta+f"=== Установка {green}успешна!{magneta} Переходим к самой проге ===")
+
 
 
         
@@ -494,7 +502,7 @@ def likes():
         # проверяем ссылку на стандартную
         if url.isdigit():
             url = settings["links1"][int(url) - 1]
-            logger.print(f"{magneta}=== Начинаем накрутку монет ==={reset}")
+            logger.print(f"{magneta}=== Начинаем накрутку лайков ==={reset}")
             logger.print(f"Накручиваем на id:{url[-24:]}")
         driver.get(url)
     except Exception as e:
@@ -556,7 +564,7 @@ def moeny():
         logger.print(f"{magneta}=== Начинаем накрутку монет ==={reset}")
         logger.print(f"id: {url[-24:]}")
         driver.get(url)
-        time.sleep(0.5)
+        time.sleep(1)
         driver.execute_script("window.stop();")
 
     else:
@@ -581,7 +589,7 @@ def moeny():
                 else:
                     driver.find_element(By.XPATH,"//div[text()='🐭']").click()
                     print("🐭 Тыкаем на мыщку")
-            time.sleep(5)
+            time.sleep(random.uniform(int(settings["sleeps"]["moeny"][0][0]),int(settings["sleeps"]["moeny"][0][1])))
 
             try:
                 driver.find_element(By.XPATH,"//*[text()='Получить монетку']").click()
@@ -591,6 +599,7 @@ def moeny():
                     pass #хз, кнопка то пойвится то пропадет, оч хороший способ сломать накрутку 
                 else:
                     print(red + "Кнопка 'Получить монетку'/'Вернуться' не найдена")
+
                     driver.refresh()
                     continue
 
@@ -598,14 +607,16 @@ def moeny():
 
             #finnal = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, "//*[text()='Получить монетку']")))
             #finnal.click()
-            time.sleep(random.randint(1, 3))
+            time.sleep(0.5)
+            driver.delete_all_cookies()
+            driver.execute_script("window.localStorage.clear();")
             driver.refresh()
+
             counts += 1
             logger.print(f"{green}+1 монетка | {magneta}Всего: {counts} | {cyan}Oсталось: {moeny - counts}{reset} | :3")
             if str(counts)[-2:] == "00":
                 logger.print(f"{blue}=== {counts} монеток! :3 ==={reset}")
-            driver.refresh()
-            time.sleep(random.randint(3, 5))
+
         except Exception as e:
             logger.print(f"{red}Ошибка на итерации {counts + 1}: {e}{reset}")
             logger.print(f"{cyan}Пробуем снова через 5 секунд...{reset}")
@@ -697,7 +708,7 @@ def lifes():
     except ValueError:
         pass  # Если преобразование не удалось, оставляем строку
 
-    c = int(input(magneta+ "Сколько жизек нужно накрутить: "))
+    c = int(input(magneta+ "Сколько жизней нужно накрутить: "))
     logger.print(magneta + "=== Начинаем накрутку жизьек ===")
     counts = 0
     try:
@@ -739,17 +750,22 @@ def lifes():
     menu()
 
 
-def click_wait(peer, text,client,timeout=3):
-    for _ in range(int(timeout/0.2)):
-        msg = client.get_messages(peer, limit=1)[0]
-        time.sleep(0.2)
-        msg.click(text=text)
-        new_msg = client.get_messages(peer, limit=1)[0]
-        if msg != new_msg:
-            return msg
-        else:
-            time.sleep(0.2)
-            continue
+def click_wait(peer, text, client, timeout=5):
+    # Получаем последнее сообщение
+    msg = client.get_messages(peer, limit=1)[0]
+
+    if msg.buttons:
+        for row in msg.buttons:
+            for button in row:
+                #print(button.text + (" = " if button.text == text else " ≠ ") + text)
+                if button.text == text:
+                    button.click()
+                    time.sleep(2)  # Ждём новое сообщение
+                    return client.get_messages(peer, limit=1)[0]  
+
+    logger.print(f"{red}Кнопка '{text}' не найдена{reset}")
+    return None
+
 def items():
     load_settings() 
     with open(sp+'/items.json', 'r',encoding='utf-8') as f:
@@ -758,7 +774,7 @@ def items():
     if not settings["tg"]["connected"]:
         print(red+"Для этой функции необходимо подключить тг аккаунт. " + cyan + "4. Настройки -> 7. Подключить/управлять тг акком -> 2. Подключить")
         menu()
-    print(cyan + "1. Просто накрутить что то из магаза\n2. Накручивать по цене предмета монеткок а затем предмет")
+    print(cyan + "1. Просто накрутить что то из магазина\n2. Накручивать по цене предмета монеток а затем предмет")
     m = input(magneta + "Выбирай: ")
     if m == "2":
         m = True
@@ -787,7 +803,7 @@ def items():
         pass  # Если преобразование не удалось, оставляем строку
     for ii, i in enumerate(items.keys()):
         print(cyan + str(ii) + ". " + str(i))
-    category = int(input(magneta + "Выберете категорию: "))
+    category = int(input(magneta + "Выберите категорию: "))
     category_name = list(items.keys())[category]
 
     # Список предметов в выбранной категории
@@ -803,7 +819,7 @@ def items():
     # Получаем выбранный предмет
     item = category_items[item_index]
     c = int(input(magneta+ "Сколько предметов нужно накрутить: "))
-    logger.print(magneta + f'=== Начинаем накрутку "{item["name"]}" ===')
+    logger.print(magneta + f'=== Начинаем накрутку "{item["name"]}" ==='+reset)
     counts = 0
     try:
         with TelegramClient('session', int(settings["tg"]["id"]), settings["tg"]["hash"],device_model="Накрутка для кб :3") as client:
@@ -825,14 +841,16 @@ def items():
                                 break
                 if not client.get_messages(u, limit=1)[0].raw_text.startswith("Это твой кошелёк, тут лежат монетки и можно что-нибудь купить или заработать"):
                     msg = client.send_message(u, "👛")
+                time.sleep(1)
                 msg = click_wait(u, "Предметы 🎮",client)
-                print(msg.raw_text)
+                print(msg.raw_text) # type: ignore
+                
                 msg = click_wait(u, category_name,client)
-                print(msg.raw_text)
+                print(msg.raw_text) # type: ignore
                 msg = click_wait(u, item["name"],client)
-                print(msg.raw_text)
+                print(msg.raw_text) # type: ignore
                 msg = click_wait(u, "Да",client)
-                print(msg.raw_text)
+                print(msg.raw_text) # type: ignore
                 
                 time.sleep(2)
                 if client.get_messages(u, limit=1)[0].raw_text.startswith("Ура, мы купили"):
@@ -843,7 +861,7 @@ def items():
 
     except Exception as e:
         logger.print(f"{red}Ошибка на итерации {counts + 1}: {e}{reset}")
-    logger.print(green + f"Готово! Накручено {counts} монеток! :3" + reset)
+    logger.print(green + f"Готово! Накручено {counts} предметов! :3" + reset)
     menu()
 
 
