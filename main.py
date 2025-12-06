@@ -319,7 +319,7 @@ def init():
 
     try:
         service = Service(executable_path=sp+r"/browser/gecko")
-        driver = webdriver.Firefox(options=options,service=service,firefox_profile=profile) # хром гавно из за манифест в3
+        driver = webdriver.Firefox(options=options,service=service) # хром гавно из за манифест в3
         # устонавливаем расширение ublock origin
         driver.install_addon(sp+'/browser/ublock_origin.xpi', temporary=True) #ненавижу рекламу
     except Exception as e:
