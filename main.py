@@ -409,7 +409,7 @@ def start_init():
     elif oss.startswith("linux"):
         bashrc = os.path.join(os.path.expanduser('~'), '.bashrc')
         with open(bashrc, 'a') as f:
-            f.write(f'\nalias kb="cd {sp} && python main.py"\n')
+            f.write(f'\nalias kb="cd {sp} && python3 main.py"\n')
         os.system("source ~/.bashrc")
         print(green + "Запускай прогу командой 'kb'")
     else:
