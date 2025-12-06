@@ -407,7 +407,7 @@ def start_init():
         os.system("chmod 775 kb")
         print(green + "Запускай прогу командой 'kb'")
     elif oss.startswith("linux"):
-        open("/usr/bin/kb", "rw").write("python ~/farmer-for-cat-bot/main.py")
+        open("/usr/bin/kb", "w").write("python ~/farmer-for-cat-bot/main.py")
         os.system("sudo chmod 775 /usr/bin/kb")
         print(green + "Запускай прогу командой 'kb'")
     else:
