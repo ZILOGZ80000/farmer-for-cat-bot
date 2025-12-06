@@ -378,7 +378,7 @@ def start_init():
     except FileNotFoundError:
         urllib.request.urlretrieve(url, sp + "/browser/gecko")  # pyright: ignore[reportAttributeAccessIssue] # хз че с вс коде
         print(green + "Гекодрайвер скачан!")
-    
+    os.chmod(sp + "/browser/gecko", 0o755)
     print(magneta + "=== 2. Скачиваем файрфокс ===")
 
 
