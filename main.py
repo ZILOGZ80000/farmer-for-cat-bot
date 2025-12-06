@@ -314,7 +314,7 @@ def init():
         proxy = requests.get("lol.alwaysdata.net/fp").text #либа не рработает в термуксе без 2 гигобайтных зависимостей, поэтому я поставил либибу на серв и все норм (возващает строку типа http://4.149.153.123:3128)
         proxy = urlparse(proxy)
         configure_proxy(profile, proxy.scheme, proxy.hostname, proxy.port)
-        options.profile = profile
+    options.profile = profile
 
 
     try:
