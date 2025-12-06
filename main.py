@@ -407,8 +407,10 @@ def start_init():
         os.system("chmod 775 kb")
         print(green + "Запускай прогу командой 'kb'")
     elif oss.startswith("linux"):
-        open("/usr/bin/kb", "w").write("python ~/farmer-for-cat-bot/main.py")
-        os.system("sudo chmod 775 /usr/bin/kb")
+        bashrc = os.path.join(os.path.expanduser('~'), '.bashrc')
+        with open(bashrc, 'a') as f:
+            f.write(f'\nalias kb="cd {sp} && python main.py"\n')
+        os.system("source ~/.bashrc")
         print(green + "Запускай прогу командой 'kb'")
     else:
         print(green + "У тя винда, запускай ехешку напрямую :)")
