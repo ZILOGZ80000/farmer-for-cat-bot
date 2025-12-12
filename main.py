@@ -302,12 +302,16 @@ def clear():
 
 def init():
     options = Options()
+    import tempfile
+    profile_path = tempfile.mkdtemp()  # Создаем временную директорию для профиля
+    
+    # Создаем профиль с явным указанием пути
+    profile = FirefoxProfile(profile_path)
     if settings["headless"]:
         options.add_argument('--no-sandbox')
         options.add_argument('--headless')
         options.add_argument('--disable-dev-shm-usage')
     options.set_preference("general.useragent.override", ua)
-    profile = FirefoxProfile()
     profile.set_preference("http.response.timeout", 5)
     if settings["proxy"]:
         #proxy = urlparse(FreeProxy().get())
