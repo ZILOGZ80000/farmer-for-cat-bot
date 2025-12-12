@@ -302,11 +302,23 @@ def clear():
 
 def init():
     options = Options()
-    import tempfile
-    profile_path = tempfile.mkdtemp()  # Создаем временную директорию для профиля
+    import platform
     
-    # Создаем профиль с явным указанием пути
-    profile = FirefoxProfile(profile_path)
+    profile = FirefoxProfile()
+    if platform.system() == "Linux":
+            # Критически важные настройки для Linux
+            profile.set_preference("browser.startup.homepage", "about:blank")
+            profile.set_preference("startup.homepage_welcome_url", "about:blank")
+            profile.set_preference("startup.homepage_welcome_url.additional", "about:blank")
+            profile.set_preference("browser.download.folderList", 2)
+            profile.set_preference("browser.download.manager.showWhenStarting", False)
+            profile.set_preference("browser.helperApps.neverAsk.saveToDisk", "application/octet-stream")
+    
+            # Отключаем все, что может мешать
+            profile.set_preference("dom.push.enabled", False)
+            profile.set_preference("geo.enabled", False)
+            profile.set_preference("browser.tabs.remote.autostart", False)
+            profile.set_preference("browser.tabs.remote.autostart.2", False)
     if settings["headless"]:
         options.add_argument('--no-sandbox')
         options.add_argument('--headless')
