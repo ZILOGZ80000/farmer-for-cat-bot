@@ -18,7 +18,15 @@ import os
 from telethon.sync import TelegramClient
 from telethon.errors import PasswordHashInvalidError
 import getpass
+import subprocess
+import tempfile
+import platform
 
+# Очистка перед запуском
+if platform.system() == "Linux":
+    subprocess.run(['pkill', '-f', 'firefox'], stderr=subprocess.DEVNULL)
+    subprocess.run(['rm', '-f', os.path.expanduser('~/.mozilla/firefox/*/*.lock')], stderr=subprocess.DEVNULL)
+    subprocess.run(['rm', '-f', os.path.expanduser('~/.mozilla/firefox/*/lock')], stderr=subprocess.DEVNULL)
 
 #import logs
 
@@ -319,6 +327,9 @@ def init():
             profile.set_preference("geo.enabled", False)
             profile.set_preference("browser.tabs.remote.autostart", False)
             profile.set_preference("browser.tabs.remote.autostart.2", False)
+
+            options.add_argument('-no-remote')
+            options.add_argument('-new-instance')
     if settings["headless"]:
         options.add_argument('--no-sandbox')
         options.add_argument('--headless')
