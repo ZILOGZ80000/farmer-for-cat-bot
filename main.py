@@ -345,7 +345,19 @@ def init():
 
 
     try:
-        service = Service(executable_path=sp+r"/browser/gecko")
+        service = Service(
+        executable_path=sp+r"/browser/gecko",
+        log_path=sp+'/geckodriver.log',  # Сохраняем логи драйвера
+        service_args=['--log', 'debug']   # Включаем debug режим
+    )
+    
+        # Добавим настройки для логирования Firefox
+        options.set_preference("browser.dom.window.dump.enabled", True)
+        options.set_preference("devtools.console.stdout.content", True)
+        options.set_preference("devtools.console.stdout.chrome", True)
+    
+        # Сохраним логи браузера в файл
+        options.set_preference("browser.console.loglevel", "all")
         driver = webdriver.Firefox(options=options,service=service) # хром гавно из за манифест в3
         # устонавливаем расширение ublock origin
         driver.install_addon(sp+'/browser/ublock_origin.xpi', temporary=True) #ненавижу рекламу
