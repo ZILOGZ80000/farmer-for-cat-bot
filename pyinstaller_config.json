@@ -22,6 +22,10 @@
    "value": "C:/Users/user/Downloads/fff.ico"
   },
   {
+   "optionDest": "name",
+   "value": "windows"
+  },
+  {
    "optionDest": "clean_build",
    "value": false
   },

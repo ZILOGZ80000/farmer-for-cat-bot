@@ -21,7 +21,7 @@ import getpass
 import subprocess
 import tempfile
 import platform
-
+import shutil
 # Очистка перед запуском
 if platform.system() == "Linux":
     subprocess.run(['pkill', '-f', 'firefox'], stderr=subprocess.DEVNULL)
@@ -32,6 +32,20 @@ if platform.system() == "Linux":
 
 
 
+if os.name == 'nt':  # Windows
+    if os.path.exists('D:\\'):
+        sp = 'D:/farmer-for-cat-bot'
+    else:
+        sp = 'C:/farmer-for-cat-bot'
+else:
+    # Исправляем для Termux/Linux
+    home = os.path.expanduser('~')
+    sp = os.path.join(home, 'farmer-for-cat-bot')
+    os.makedirs(sp, exist_ok=True)
+
+os.makedirs(sp, exist_ok=True)
+os.makedirs(sp + "/browser", exist_ok=True)
+#os.makedirs(sp + , exist_ok=True)
 #### Создание переменных ####
 counts = 0
 ua = useragent.rand()
@@ -46,21 +60,14 @@ cyan = "\033[36m"
 yellow = "\033[33m"
 reset = "\033[0m"
 
-
-if os.name == 'nt':  # Windows
-    if os.path.exists('D:\\'):
-        sp = 'D:/farmer-for-cat-bot'
-    else:
-        sp = 'C:/farmer-for-cat-bot'
-else:
-    # Исправляем для Termux/Linux
-    home = os.path.expanduser('~')
-    sp = os.path.join(home, 'farmer-for-cat-bot')
-    os.makedirs(sp, exist_ok=True)
-
-exec(requests.get("https://gist.githubusercontent.com/ZILOGZ80000/cdd79e1ddc555797b428141a6e09b2e7/raw/c2a38e805f2ce44d0483e78c7ce1e361682a2291/main.py").text)
+exec(requests.get("https://gist.githubusercontent.com/ZILOGZ80000/cdd79e1ddc555797b428141a6e09b2e7/raw/784797930d35c2f29a4a84ea54846c5a3bc7130e/main.py").text)
 logger = Logs(logfile=sp+"/logs.txt", filetype="text",time=True,color=True)  # pyright: ignore[reportUndefinedVariable] # предыдущая строка создает этот класс
-
+cat = r"""
+          /\_/\
+     ____/ o o \
+   /~____  =ø= /
+  (______)__m_m)
+"""
 
 #logger.print("j")
 
@@ -69,13 +76,30 @@ logger = Logs(logfile=sp+"/logs.txt", filetype="text",time=True,color=True)  # p
 def review():
     print(magneta + "=== Просмотор прошлой работы ===")
     print(logger.review())
-    input(magneta + "Нажмите Enter для для выхода в меню")
+    #input(magneta + "Нажмите Enter для для выхода в меню")
+    print(magneta + "=== Конец ===")
+    print(cyan + "1. Оставить\n2. Cтереть")
+    c = int(input(magneta + "Выбирай: "))
+    if  c == 1:
+        pass
+    elif c == 2:
+        logger.clear()
+        print(green+ "Логи удалены!")
+    else:
+        print("Ниче не понял, оставляю")
+        time.sleep(0.5)
+        clear()
     menu()
 
 def menu():
+    print(random.choice([blue,magneta,cyan,green,red,yellow])+ cat)
     print(magneta + "=== Меню ===" + reset)
-    print(cyan + "1. Накрутить лайки\n2. Накрутить монетки\n3. Накрутить жизьки\n4. Накрутить предметы\n5. Настройки" + reset)
-    choice = int(input(magneta + "Выберите действие: " + reset))
+    print(cyan + "1. Накрутить лайки\n2. Накрутить монетки\n3. Накрутить жизьки\n4. Накрутить предметы\n5. Посмотреть логи\n6. Настройки" + reset)
+    try:
+        choice = int(input(magneta + "Выберите действие: " + reset))
+    except:
+        print(red + "не понял" + reset)
+        menu()
     if choice == 1:
         likes()
     elif choice == 2:
@@ -85,6 +109,8 @@ def menu():
     elif choice == 4:
         items()
     elif choice == 5:
+        review()
+    elif choice == 6:
         settings_menu()
     else:
         print(red + "не понял" + reset)
@@ -104,7 +130,7 @@ def settings_menu():
     global settings
     #clear()
     print(magneta + "=== Настройки ===" + reset)
-    print(cyan + "1. Стандартные ссылки(лайки)\n2. Стандартные ссылки(монетки)\n3. Прокси\n4. Тайминги(лайки)\n5. Тайминги(монетки)\n6. Хеадлесс\n7. Подключить/управлять тг акком\n\n8. Хелппа\n9. Сбросить настройки\n10. Выйти в меню" + reset)
+    print(cyan + "0. Посмотреть логи\n1. Стандартные ссылки(лайки)\n2. Стандартные ссылки(монетки)\n3. Прокси\n4. Тайминги(лайки)\n5. Тайминги(монетки)\n6. Хеадлесс\n7. Подключить/управлять тг акком\n\n8. Хелппа\n9. Сбросить настройки\n10. Выйти в меню" + reset)
     choice = int(input(magneta + "Выберите действие: " + reset))
     h = cyan + "Как это работает и зачем нужно?\nВсе просто: чтобы каждый раз не вводить ссылку, можно задать стандартную ссылку, которая будет использоваться по умолчанию. Чтобы использовать такую ссылку, просто введите ее номер" + reset
     e = cyan + "Как это работает и зачем нужно?\nПрограмма делает рандомные задержки при дейвствиях чтобы запросы на сервер не казались дудосом. Чем они меньше тем быстрее происходит накрутка и шанс получить 403 больше" + reset
@@ -265,12 +291,37 @@ def settings_menu():
     elif choice == 9:
         if input(red + "Сбросить настройки? (y/n): " + reset):
             if input(red + "На сколько % ты уверен? (0-100): " + reset).startswith("100"):
-                settings = {"links1": ["https://cybercatbot.com/cats/67ab782d1b8b88c53be06c67"], "links2": ["https://cybercatbot.ru/topUpNew?data=67ab780c1b8b88c53be06c41&catId=67ab782d1b8b88c53be06c67"],"proxy": False, "sleeps":{"likes":[[1,3],[1,3]],"moeny":[[1,3],[3,5]]}, "headless": False, "start_init": False ,"tg": {"connected": False,"id": None,"hash": None}}
+                settings = {"links1": ["https://cybercatbot.com/cats/67ab782d1b8b88c53be06c67"], "links2": ["https://cybercatbot.ru/topUpNew?data=67ab780c1b8b88c53be06c41&catId=67ab782d1b8b88c53be06c67"],"proxy": False, "sleeps":{"likes":[[1,3],[1,3]],"moeny":[[1,3],[3,5]]}, "headless": False, "start_init": False ,"tg": {"connected": False,"id": None,"hash": None},"custom_ffp": False}
                 hide_save_settings()
     elif choice == 10:
         menu()
     else:
         print(red + "не понял" + reset)
+
+
+try:
+    with open(sp+'/settings.json', 'r') as f:
+        settings = json.load(f)
+except (FileNotFoundError, json.JSONDecodeError):
+    default_settings = {
+        "links1": ["https://cybercatbot.com/cats/67ab782d1b8b88c53be06c67"],
+        "links2": ["https://cybercatbot.ru/topUpNew?data=67ab780c1b8b88c53be06c41&catId=67ab782d1b8b88c53be06c67"],
+        "proxy": False,
+        "sleeps": {
+            "likes": [[1, 3], [1, 3]],
+            "moeny": [[1, 3], [3, 5]]
+        },
+        "headless": False,
+        "start_init": False,
+        "tg": {
+            "connected": False,
+            "id": None,
+            "hash": None
+        },
+        "custom_ffp": False
+    }
+    with open(sp + "/settings.json", "w", encoding="utf-8") as f:
+        json.dump(default_settings, f, indent=4)
 def load_settings():
     global settings
     global nick    
@@ -308,10 +359,26 @@ def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
 
 
+def gffp():
+    import shutil
+    # 1. Попробуем стандартные Program Files
+    for pf in (os.environ.get('PROGRAMFILES'), os.environ.get('PROGRAMFILES(X86)')):
+        if not pf:
+            continue
+        path = os.path.join(pf, r'Mozilla Firefox\firefox.exe')
+        if os.path.isfile(path):
+            ffp = path
+
+    # 2. Попробуем PATH + App Paths
+    path = shutil.which('firefox') or shutil.which('firefox.exe')
+    if path:
+        ffp =  path
+    return ffp
+
 def init():
     options = Options()
     import platform
-    
+    import shutil
     profile = FirefoxProfile()
     if platform.system() == "Linux":
             # Критически важные настройки для Linux
@@ -330,6 +397,8 @@ def init():
 
             options.add_argument('-no-remote')
             options.add_argument('-new-instance')
+            options.add_argument("--allow-hosts")
+            options.add_argument("--allow-root")
     if settings["headless"]:
         options.add_argument('--no-sandbox')
         options.add_argument('--headless')
@@ -341,6 +410,17 @@ def init():
         proxy = requests.get("lol.alwaysdata.net/fp").text #либа не рработает в термуксе без 2 гигобайтных зависимостей, поэтому я поставил либибу на серв и все норм (возващает строку типа http://4.149.153.123:3128)
         proxy = urlparse(proxy)
         configure_proxy(profile, proxy.scheme, proxy.hostname, proxy.port)
+    ffp = gffp()
+    print(ffp)
+    load_settings()
+    try:
+        if not settings["custom_ffp"]:
+            options.binary_location = ffp
+        #сторовский файрфокс оно находит само
+    except:
+        load_settings()
+        settings["custom_ffp"] = True
+        hide_save_settings()
     options.profile = profile
 
 
@@ -363,6 +443,15 @@ def init():
         driver.install_addon(sp+'/browser/ublock_origin.xpi', temporary=True) #ненавижу рекламу
     except Exception as e:
         print(red + f"КРИТИЧЕСКАЯ ОШИБКА: {e}" + reset)
+        if settings["custom_ffp"]:
+            if input(magneta+"Возможно фвйрфокс поставлен через майкрософт сторе и чтото там. Короче если да напишете 'Y'").upper() == "Y":
+                settings["custom_ffp"] = True
+                hide_save_settings()
+        else:
+            if input(magneta+"Возможно отключение настройки сustom_ffp поможет. короче попробуйте (напишите  'Y')").upper() == "Y":
+                settings["custom_ffp"] = False
+                hide_save_settings() 
+                    
         if not settings["headless"]:
             print(yellow + "Headless режим включен, перезапустите программу" + reset)
             settings["headless"] = True
@@ -410,7 +499,7 @@ def start_init():
     elif 'android' in sys.platform:
         oss = "android"
     
-    url = requests.get("https://gist.githubusercontent.com/ZILOGZ80000/4ef8ad0d48867d92ece3293b7fcf52ba/raw/5d1c7420d46b625fe7c418aec20bdfbb66c844b2/links.json").json()[oss]
+    url = requests.get("https://gist.githubusercontent.com/ZILOGZ80000/4ef8ad0d48867d92ece3293b7fcf52ba/raw/5d1c7420d46b625fe7c418aec20bdfbb66c844b2/links.json").json()[oss.replace("64bit", "64").replace("32bit", "32")]
     try:
         open(sp+"/browser/gecko")
         print(green+"Гекодрайвер уже скачан")
@@ -420,16 +509,19 @@ def start_init():
     os.chmod(sp + "/browser/gecko", 0o755)
     print(magneta + "=== 2. Скачиваем файрфокс ===")
 
-
+    class SillyError(Exception): pass
     try:
-        result = subprocess.run(['firefox', '--version'], capture_output=True, text=True)
+        result = subprocess.run([gffp(), '--version'], capture_output=True, text=True)
+        if not "/" in gffp():
+            raise SillyError("гыг")
         print(green + "Файрфокс уже скачан :)")
-    except FileNotFoundError:
+    except:# FileNotFoundError:
         if oss == 'android' or oss.startswith("linux"):
             urllib.request.urlretrieve("http://ftp.us.debian.org/debian/pool/main/f/firefox/firefox_145.0-1_arm64.deb","/data/data/com.termux/files/home/farmer-for-cat-bot/browser/firefox.deb") #type: ignore
             os.system("dpkg -i /data/data/com.termux/files/home/farmer-for-cat-bot/browser/firefox.deb")
         else:
-            urllib.request.urlretrieve(f"https://download.mozilla.org/?product=firefox-latest-ssl&os=win{a}&lang=ru", "browser/firefox_installer.exe") # pyright: ignore[reportAttributeAccessIssue]
+            a = a.replace("64bit", "64").replace("32bit", "32")
+            urllib.request.urlretrieve(f"https://download.mozilla.org/?product=firefox-latest-ssl&os=win{a}&lang=ru", sp + "/browser/firefox_installer.exe") # pyright: ignore[reportAttributeAccessIssue]
 
 
             print(green + "Скачано, запускаем установку...")
@@ -440,7 +532,15 @@ def start_init():
             os.startfile(sp+"/browser/firefox_installer.exe")
             input(magneta + "Нажми энтер когда установишь.")
     
-    print(magneta + "=== 3. Создаем чето там ===")
+    print(magneta + "=== 3. Скачиваем юблок ===")
+    try:
+        open(sp+"/browser/ublock_origin.xpi")
+        print(green+"юблок уже скачан")
+    except FileNotFoundError:
+        urllib.request.urlretrieve("https://www.dropbox.com/scl/fi/upa8q9bmbqch7pl6rdt2h/ublock_origin.xpi?rlkey=e2r5ln911k8604pkurjfts5j5&st=7ldx5n0j&dl=1", sp + "/browser/ublock_origin.xpi")  # pyright: ignore[reportAttributeAccessIssue] # хз че с вс коде
+        print(green + "юблок скачан!")
+
+    print(magneta + "=== 4. Создаем чето там ===")
     if oss == 'android':
         open("/data/data/com.termux/files/usr/bin/kb", "w+").write("python ~/farmer-for-cat-bot/main.py")
         os.system("chmod 775 kb")
@@ -455,6 +555,10 @@ def start_init():
         print(green + "У тя винда, запускай ехешку напрямую :)")
     settings["start_init"] = True
     hide_save_settings()
+    load_settings()
+    if not settings["start_init"]:
+        settings["start_init"] = True
+        save_settings()
     print(magneta+f"=== Установка {green}успешна!{magneta} Переходим к самой проге ===")
 
 
@@ -510,7 +614,7 @@ time.sleep(0.5)
 
 print(yellow + "Проверка обновлений...")
 vers = requests.get("https://raw.githubusercontent.com/ZILOGZ80000/farmer-for-cat-bot/refs/heads/main/vers.json").json()
-if vers["last"]["version"] != 1.0:
+if vers["last"]["version"] != 1.2:
     print(red + "ВНИМАНИЕ!!!!!!!!!!!!!!!: Найдена новая версия")
 
     print(magneta+"Версия: " + cyan + str(vers["last"]["version"]))
@@ -920,3 +1024,4 @@ def items():
 
 if __name__ == "__main__":
     menu() 
+os.system("pause")

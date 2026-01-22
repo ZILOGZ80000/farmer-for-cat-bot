@@ -28,11 +28,12 @@
             ]
         ]
     },
-    "headless": false,
-    "start_init": false,
+    "headless": true,
+    "start_init": true,
     "tg": {
         "connected": false,
         "id": null,
         "hash": null
-    }
+    },
+    "custom_ffp": true
 }
