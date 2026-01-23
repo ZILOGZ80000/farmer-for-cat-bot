@@ -322,6 +322,56 @@ except (FileNotFoundError, json.JSONDecodeError):
     }
     with open(sp + "/settings.json", "w", encoding="utf-8") as f:
         json.dump(default_settings, f, indent=4)
+
+
+try:
+    with open(sp+'/items.json', 'r') as f:
+        settings = json.load(f)
+except (FileNotFoundError, json.JSONDecodeError):
+    default_items = {
+  "Для дома": [
+    {"name":"Кустик в горшке", "price":3},
+    {"name":"Когтеточка", "price":4},
+    {"name":"Столик", "price":2},
+    {"name":"Коврик", "price":2},
+    {"name":"Лежанка", "price":1},
+    {"name":"Фикус", "price":2},
+    {"name":"Велосипед", "price":2},
+    {"name":"Лестница на чердак", "price":2}
+  ],
+  "Цветы": [
+    {"name":"Роза 🌹", "price":1},
+    {"name":"Гортензия 💙", "price":1},
+    {"name":"Ромашка 🤍", "price":1},
+    {"name":"Подсолнух 🌻", "price":1}
+  ],
+  "Другое": [
+    {"name":"Резиновая уточка 🐤", "price":2},
+    {"name":"Кольцо соника", "price":1},
+    {"name":"Белый шарик", "price":2}
+  ],
+  "Для сада":[
+    {"name":"Зеленое дерево","price":2},
+    {"name":"Розовое дерево","price":2}
+  ],
+  "Зд принтер": [
+    {"name": "Жёлтый картридж", "price": 2},
+    {"name": "Красный картридж", "price": 2},
+    {"name": "3д принтер", "price": 2},
+    {"name": "Зелёный картридж", "price": 2},
+    {"name": "Синий картридж", "price": 2},
+    {"name": "Фиолетовый картридж", "price": 2},
+    {"name": "Табличка забор", "price": 2}
+  ],
+  "Мяу Технолоджис":[
+    {"name": "Cхема телевизора", "price": 2},
+    {"name": "Cхема пульта", "price": 2}
+  ]
+}
+    with open(sp + "/items.json", "w", encoding="utf-8") as f:
+        json.dump(default_items, f, indent=4)
+
+
 def load_settings():
     global settings
     global nick    
@@ -623,6 +673,12 @@ if vers["last"]["version"] != 1.2:
     print(magneta+"Дата релиза: " + cyan + vers["last"]["date"])
 
     input("Нажмите энтер для продолжения")
+elif requests.get("https://raw.githubusercontent.com/ZILOGZ80000/farmer-for-cat-bot/refs/heads/main/items.json").text != open("items.json",encoding="utf-8").read():
+    print(yellow + "Обновление предметов...")
+    with open("items.json","w",encoding="utf-8") as f:
+        f.write(requests.get("https://raw.githubusercontent.com/ZILOGZ80000/farmer-for-cat-bot/refs/heads/main/items.json").text)
+        f.close()
+    print(green+"Предметы обновлены!")
 else:
     print(green+"Обновления не найдены!")
 time.sleep(1)

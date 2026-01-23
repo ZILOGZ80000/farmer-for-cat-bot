@@ -31,9 +31,9 @@
     "headless": true,
     "start_init": true,
     "tg": {
-        "connected": false,
-        "id": null,
-        "hash": null
+        "connected": true,
+        "id": "26949375",
+        "hash": "c765e2a61afd776b9c4bb9e2a2221879"
     },
     "custom_ffp": true
 }
