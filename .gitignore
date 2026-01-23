@@ -1,6 +1,7 @@
 __pycache__
 logs
 logs.txt
+/addon.py
 geckodriver.exe
 h.py
 browser/gecko
