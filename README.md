@@ -1,72 +1,11 @@
-### <center>⬇⬇⬇ русская версия чуть чуть ниже ⬇⬇⬇
-
-# === English ===
-# farmer-for-cat-bot 
-
-![Version 1.0](https://gist.githubusercontent.com/ZILOGZ80000/4ef8ad0d48867d92ece3293b7fcf52ba/raw/f18967f338fccb9873e6eba6c686bd4f84316c51/version.svg) <!-- Original badge host may not work properly -->
-
-# === English ===
-
-## Description  
-A Python tool for automated farming of hearts, likes, and in-game coins for [Cat Bot](t.me/Kisik_Kotik_Bot).  
-Uses Selenium with Firefox to simulate human-like interactions.
-
-## Features  
-⦁ **Like Farming:** Automates likes for cats via specified links.  
-⦁ **Coin Mining:** Plays mini-games to accumulate coins.  
-⦁ **Heart Cheating:** Manages Telegram accounts to interact with the bot. 
-⦁ **Items Cheating:** Manages Telegram accounts to interact with the bot.  
-⦁ **Settings Persistence:** Stores default links and parameters in `settings.json`.  
-⦁ **Proxy Support:** Uses free proxies for anonymity and bypassing limits.  
-⦁ **Humanized Timing:** Randomized delays to avoid detection.  
-⦁ **Headless Mode:** Runs browser in background (no GUI).  
-⦁ **AdBlock Integration:** Auto-installs uBlock Origin.  
-⦁ **Update Notifications:** Checks `vers.json` for new versions.
-
-## Requirements  
-⦁ Python 3.x  
-⦁ Firefox & Geckodriver (auto-installed during setup)  
-
-## Installation
-
-### Android  
-
-1. **Install Termux:**  
-   Download the full version [here](https://f-droid.org/repo/com.termux_1002.apk) (*DO NOT use Google Play*).  
-
-2. **Run Installer:**  
-   Paste this command in Termux:  
-   ```bash
-   curl https://raw.githubusercontent.com/ZILOGZ80000/farmer-for-cat-bot/main/executable_files/termux.sh | bash
-   ```  
-   The script will install Python, dependencies, Firefox/Geckodriver, and run initial setup.  
-   Launch anytime with: `kb`
-
-### Linux  
-Run this command in a terminal:  
-```bash
-curl https://raw.githubusercontent.com/ZILOGZ80000/farmer-for-cat-bot/main/executable_files/linux.sh | bash
-```  
-Launch after installation with: `kb`
-
-### Windows  
-1. Download the executable:  
-   [windows.exe](https://raw.githubusercontent.com/ZILOGZ80000/farmer-for-cat-bot/main/executable_files/windows.exe)  
-2. Double-click to run (place it on Desktop for convenience).
-
-## Support/Suggest an Idea
-
-Write to t.me/humansiamnothuman (<span style="color:red">I might not notice or reply for a million years<span style="color:white">),  
-but it’s better to report bugs in GitHub issues, and for everything else — in discussions.
-
-
-
+### <center> ⬇⬇⬇ the English version is slightly lower ⬇⬇⬇
+<!---### <center>⬇⬇⬇ русская версия чуть чуть ниже ⬇⬇⬇-->
 
 
 # === Русский ===
 # Накрутка для котика ботика 
 
-![Version 1.0](https://gist.githubusercontent.com/ZILOGZ80000/4ef8ad0d48867d92ece3293b7fcf52ba/raw/f18967f338fccb9873e6eba6c686bd4f84316c51/version.svg) <!-- хз почему у меня не работает оригинальный сайт  -->
+![Version 1.2](https://gist.githubusercontent.com/ZILOGZ80000/4ef8ad0d48867d92ece3293b7fcf52ba/raw/8f883e3184aefd4949c84f74df9f6ad877659e63/version.svg) <!-- хз почему у меня не работает оригинальный сайт  -->
 
 ## Описание
 Небольшой Python-инструмент для автоматической накрутки жизек,лайков и внутриигровых "монеток" для котов в [котике ботике](t.me/Kisik_Kotik_Bot)
@@ -140,10 +79,69 @@ but it’s better to report bugs in GitHub issues, and for everything else — i
 
 ## Поддержка/предложить идею
 
-Пиши в t.me/humans_i_am_not_human (<span style="color:red">Могу не заметить или ответить через 1000000 лет<span style="color:white">)
+Пиши в https://t.me/humans_i_am_not_human (<span style="color:red">Могу не заметить или ответить через 1000000 лет<span style="color:white">)
 но лучше для багов в [Github issues](https://github.com/ZILOGZ80000/farmer-for-cat-bot/issues), а для остального в [discussions](https://github.com/ZILOGZ80000/farmer-for-cat-bot/discussions)
 
 
+
+# === English ===
+# farmer-for-cat-bot 
+
+![Version 1.2](https://gist.githubusercontent.com/ZILOGZ80000/4ef8ad0d48867d92ece3293b7fcf52ba/raw/8f883e3184aefd4949c84f74df9f6ad877659e63/version.svg) <!-- Original badge host may not work properly -->
+
+
+
+## Description  
+A Python tool for automated farming of hearts, likes, and in-game coins for [Cat Bot](t.me/Kisik_Kotik_Bot).  
+Uses Selenium with Firefox to simulate human-like interactions.
+
+## Features  
+⦁ **Like Farming:** Automates likes for cats via specified links.  
+⦁ **Coin Mining:** Plays mini-games to accumulate coins.  
+⦁ **Heart Cheating:** Manages Telegram accounts to interact with the bot. 
+⦁ **Items Cheating:** Manages Telegram accounts to interact with the bot.  
+⦁ **Settings Persistence:** Stores default links and parameters in `settings.json`.  
+⦁ **Proxy Support:** Uses free proxies for anonymity and bypassing limits.  
+⦁ **Humanized Timing:** Randomized delays to avoid detection.  
+⦁ **Headless Mode:** Runs browser in background (no GUI).  
+⦁ **AdBlock Integration:** Auto-installs uBlock Origin.  
+⦁ **Update Notifications:** Checks `vers.json` for new versions.
+
+## Requirements  
+⦁ Python 3.x  
+⦁ Firefox & Geckodriver (auto-installed during setup)  
+
+## Installation
+
+### Android  
+
+1. **Install Termux:**  
+   Download the full version [here](https://f-droid.org/repo/com.termux_1002.apk) (*DO NOT use Google Play*).  
+
+2. **Run Installer:**  
+   Paste this command in Termux:  
+   ```bash
+   curl https://raw.githubusercontent.com/ZILOGZ80000/farmer-for-cat-bot/main/executable_files/termux.sh | bash
+   ```  
+   The script will install Python, dependencies, Firefox/Geckodriver, and run initial setup.  
+   Launch anytime with: `kb`
+
+### Linux  
+Run this command in a terminal:  
+```bash
+curl https://raw.githubusercontent.com/ZILOGZ80000/farmer-for-cat-bot/main/executable_files/linux.sh | bash
+```  
+Launch after installation with: `kb`
+
+### Windows  
+1. Download the executable:  
+   [windows.exe](https://raw.githubusercontent.com/ZILOGZ80000/farmer-for-cat-bot/main/executable_files/windows.exe)  
+2. Double-click to run (place it on Desktop for convenience).
+
+## Support/Suggest an Idea
+
+Write to https://t.me/humans_i_am_not_human (<span style="color:red">I might not notice or reply for a million years<span style="color:white">),  
+but it’s better to report bugs in GitHub issues, and for everything else — in discussions.
 <!--
 ### Вариант 1:
 
