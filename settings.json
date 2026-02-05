@@ -5,7 +5,8 @@
     "links2": [
         "https://cybercatbot.ru/topUpNew?data=67ab780c1b8b88c53be06c41&catId=67ab782d1b8b88c53be06c67"
     ],
-    "proxy": false,
+    "proxy": "off",
+    "proxy_list": [],
     "sleeps": {
         "likes": [
             [
@@ -36,5 +37,5 @@
         "hash": null
     },
     "custom_ffp": false,
-    "debug":true
+    "debug":false
 }
