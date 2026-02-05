@@ -35,5 +35,6 @@
         "id": null,
         "hash": null
     },
-    "custom_ffp": false
+    "custom_ffp": false,
+    "debug":true
 }

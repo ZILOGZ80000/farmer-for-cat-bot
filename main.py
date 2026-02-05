@@ -6,6 +6,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+
 import time
 import random
 import requests
@@ -90,7 +91,6 @@ def review():
         time.sleep(0.5)
         clear()
     menu()
-
 def menu():
     print(random.choice([blue,magneta,cyan,green,red,yellow])+ cat)
     print(magneta + "=== Меню ===" + reset)
@@ -112,6 +112,13 @@ def menu():
         review()
     elif choice == 6:
         settings_menu()
+    elif choice == 1521:
+        load_settings()
+        try:
+            exec(open("addon1.py","r",encoding="utf-8").read())
+        except KeyboardInterrupt:
+            print(red + "остоновлено")
+        menu()
     else:
         print(red + "не понял" + reset)
         menu()
@@ -154,9 +161,69 @@ def settings_menu():
             print(f"{green}Ссылка добавлена! Ее номер: {len(settings['links2'])}{reset}")
             save_settings()
             settings_menu()
-    elif choice == 3: # надеемся что работает ;-;
+    elif choice == 3:
         #print(red + "Прокси в разработке ~_~" + reset)
         print(cyan + "Что такое прокси?\nПрокси это сервер который скрывает ваш ip адрес от сервера на который вы отправляете запрос. Это нужно для того чтобы сервер не блокировал вас за дудос(и запросы будут типа с разных устройвст)" + reset)
+
+        
+        p_type = settings.get('proxy', 'off')
+        if p_type == 'free':
+            proxy_status = f"Рандомный бесплатный({red}МЕДЛЕННО!{cyan})"
+        elif p_type == 'list':
+            proxy_status = "Свой список"
+        else:
+            proxy_status = "Отключено"
+
+        print(magneta + f"==={cyan}\n1. Сменить тип (сейчас {proxy_status})\n2. Открыть список\n3. Пофиг")
+        c = input(magneta + "WinRAR:")
+        
+        if c == "1":
+            if p_type == "off":
+                settings["proxy"] = "free"
+                print(green + f"Тип изменен на: Рандомный бесплатный")
+            elif p_type == "free":
+                settings["proxy"] = "list"
+                msg = f"({red}Добавьте прокси!{reset})" if not settings.get('proxy_list') else ""
+                print(green + f"Тип изменен на: Свой список {msg}")
+            else:
+                settings["proxy"] = "off"
+                print(green + "Прокси выключен")
+            save_settings()
+
+        elif c == "2":
+            plist = settings.get("proxy_list", [])
+            print(magneta + "===")
+            for i, o in enumerate(plist):
+                print(f"{cyan}{i}. Изменить {o}")
+            print(f"{cyan}{len(plist)}. Добавить")
+            print(f"{cyan}{len(plist)+1}. Выйти")
+            
+            c2_raw = input(magneta + "Выберите действие: ")
+            
+            try:
+                c2 = int(c2_raw)
+                if c2 < len(plist): # Если выбрали существующий прокси
+                    print(cyan + "1. Изменить\n2. Удалить\n3. Назад")
+                    cp = input(magneta + "Выберите действие: ")
+                    if cp == "1":
+                        new_p = input(magneta + "Новый адрес прокси: ")
+                        settings["proxy_list"][c2] = new_p
+                        save_settings()
+                    elif cp == "2":
+                        removed = settings["proxy_list"].pop(c2)
+                        print(green + f"Прокси {removed} удален")
+                        save_settings()
+                
+                elif c2 == len(plist): # Добавить новый
+                    new_p = input(magneta + "Новый адрес прокси: ")
+                    if "proxy_list" not in settings: settings["proxy_list"] = []
+                    settings["proxy_list"].append(new_p)
+                    print(green + "Добавлено!")
+                    save_settings()
+            except (ValueError, IndexError):
+                print(red + "Ошибка ввода")
+                                    
+            """
         if not settings["proxy"]:    
             c = input(magneta + "Хотим включить прокси? (y/n): " + reset)    
             if c == "y":
@@ -169,7 +236,7 @@ def settings_menu():
             if c == "y":
                 settings["proxy"] = False
                 print(f"{green}Прокси выключен!{reset}")
-                save_settings()
+                save_settings()"""
         settings_menu()
     elif choice == 4:
         print(e)
@@ -215,7 +282,7 @@ def settings_menu():
         print(magneta + "=== Хеадлесс ===" + reset)
         print(cyan + "При включенном хеадлесс режиме браузер открывается в фоне, не отображаясь на экране, что удобно для фоновых задач." + reset)
         print(red + "ОБЯЗАТЕЛЬНО НА ТЕЛЕФОНАХ!!!!1!1!!")
-        if input(magneta + f"Хеадлесс {"включен" if settings["headless"] else "выключен"}. {"Выключить?" if settings["headless"] else "Включить?"} (y/n): "+ reset) == "y":
+        if input(magneta + f'Хеадлесс {"включен" if settings["headless"] else "выключен"}. {"Выключить?" if settings["headless"] else "Включить?"} (y/n): '+ reset) == "y":
             settings["headless"] = not settings["headless"]
             save_settings()
         settings_menu()
@@ -455,11 +522,17 @@ def init():
         options.add_argument('--disable-dev-shm-usage')
     options.set_preference("general.useragent.override", ua)
     profile.set_preference("http.response.timeout", 5)
-    if settings["proxy"]:
-        #proxy = urlparse(FreeProxy().get())
-        proxy = requests.get("lol.alwaysdata.net/fp").text #либа не рработает в термуксе без 2 гигобайтных зависимостей, поэтому я поставил либибу на серв и все норм (возващает строку типа http://4.149.153.123:3128)
+
+    if settings["proxy"] == "free":
+        proxy = requests.get("https://lol.alwaysdata.net/fp").text #либа не рработает в термуксе без 2 гигобайтных зависимостей, поэтому я поставил либибу на серв и все норм (возващает строку типа http://4.149.153.123:3128)
         proxy = urlparse(proxy)
         configure_proxy(profile, proxy.scheme, proxy.hostname, proxy.port)
+    elif settings["proxy"] == "list":
+        proxy = random.choice(settings.get("proxy_list", [""]))
+        proxy = urlparse(proxy)
+        configure_proxy(profile, proxy.scheme, proxy.hostname, proxy.port)
+    else:
+        pass # хз
     ffp = gffp()
     print(ffp)
     load_settings()
@@ -567,8 +640,8 @@ def start_init():
         print(green + "Файрфокс уже скачан :)")
     except:# FileNotFoundError:
         if oss == 'android' or oss.startswith("linux"):
-            urllib.request.urlretrieve("http://ftp.us.debian.org/debian/pool/main/f/firefox/firefox_145.0-1_arm64.deb","/data/data/com.termux/files/home/farmer-for-cat-bot/browser/firefox.deb") #type: ignore
-            os.system("dpkg -i /data/data/com.termux/files/home/farmer-for-cat-bot/browser/firefox.deb")
+            #urllib.request.urlretrieve("http://ftp.us.debian.org/debian/pool/main/f/firefox/firefox_145.0-1_arm64.deb","/data/data/com.termux/files/home/farmer-for-cat-bot/browser/firefox.deb") #type: ignore
+            os.system("apt install firefox")
         else:
             a = a.replace("64bit", "64").replace("32bit", "32")
             urllib.request.urlretrieve(f"https://download.mozilla.org/?product=firefox-latest-ssl&os=win{a}&lang=ru", sp + "/browser/firefox_installer.exe") # pyright: ignore[reportAttributeAccessIssue]
@@ -612,7 +685,13 @@ def start_init():
     print(magneta+f"=== Установка {green}успешна!{magneta} Переходим к самой проге ===")
 
 
-
+def change_proxy(driver, new_proxy_url):
+    driver.proxy = {
+        'http': new_proxy_url,
+        'https': new_proxy_url,
+        'no_proxy': 'localhost,127.0.0.1' 
+    }
+    logger.print(f"=== Прокси изменен на изменен на {new_proxy_url}")
         
     
 
@@ -673,7 +752,7 @@ if vers["last"]["version"] != 1.2:
     print(magneta+"Дата релиза: " + cyan + vers["last"]["date"])
 
     input("Нажмите энтер для продолжения")
-elif requests.get("https://raw.githubusercontent.com/ZILOGZ80000/farmer-for-cat-bot/refs/heads/main/items.json").text != open("items.json",encoding="utf-8").read():
+elif requests.get("https://raw.githubusercontent.com/ZILOGZ80000/farmer-for-cat-bot/refs/heads/main/items.json").text != open(sp+"/items.json",encoding="utf-8").read():
     print(yellow + "Обновление предметов...")
     with open("items.json","w",encoding="utf-8") as f:
         f.write(requests.get("https://raw.githubusercontent.com/ZILOGZ80000/farmer-for-cat-bot/refs/heads/main/items.json").text)
@@ -791,7 +870,7 @@ def moeny():
                     driver.find_element(By.XPATH,"//div[text()='🐭']").click()
                     print("🐭 Тыкаем на мыщку")
             time.sleep(random.uniform(int(settings["sleeps"]["moeny"][0][0]),int(settings["sleeps"]["moeny"][0][1])))
-
+            driver.save_screenshot("lol.png")
             try:
                 driver.find_element(By.XPATH,"//*[text()='Получить монетку']").click()
             except:
@@ -1079,5 +1158,9 @@ def items():
 #    menu()
 
 if __name__ == "__main__":
-    menu() 
+    try:
+        menu()
+    except Exception as e:
+        print(red+"кхе кхе:"+e)
+        menu() 
 #os.system("pause")
