@@ -115,6 +115,13 @@ def menu():
     elif choice == 1521:
         load_settings()
         try:
+            driver.get("https://ipv4.webshare.io/")
+            pr= driver.page_source
+            print(pr)
+            
+        except Exception as e:
+            print
+        try:
             exec(open("addon1.py","r",encoding="utf-8").read())
         except KeyboardInterrupt:
             print(red + "остоновлено")
@@ -529,6 +536,8 @@ def init():
         configure_proxy(profile, proxy.scheme, proxy.hostname, proxy.port)
     elif settings["proxy"] == "list":
         proxy = random.choice(settings.get("proxy_list", [""]))
+        os.environ['http_proxy'] = proxy
+        os.environ['https_proxy'] = proxy
         proxy = urlparse(proxy)
         configure_proxy(profile, proxy.scheme, proxy.hostname, proxy.port)
     else:
@@ -1161,6 +1170,6 @@ if __name__ == "__main__":
     try:
         menu()
     except Exception as e:
-        print(red+"кхе кхе:"+e)
+        print(red+"кхе кхе:"+e) #type: ignore
         menu() 
 #os.system("pause")
