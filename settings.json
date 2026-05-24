@@ -5,9 +5,18 @@
     "links2": [
         "https://cybercatbot.ru/topUpNew?data=67ab780c1b8b88c53be06c41&catId=67ab782d1b8b88c53be06c67"
     ],
-    "proxy": "off",
+    "proxy": "list",
     "proxy_list": [
-        "http://zilogz80:1470741Zilog@31.59.20.176:6754/"
+        "http://zilogz80:1470741Zilog@31.59.20.176:6754/",
+        "http://zilogz80:1470741Zilog@198.105.121.200:6462",
+        "http://zilogz80:1470741Zilog@64.137.96.74:6641",
+        "http://zilogz80:1470741Zilog@209.127.138.10:5784",
+        "http://zilogz80:1470741Zilog@38.154.185.97:6370",
+        "http://zilogz80:1470741Zilog@84.247.60.125:6095",
+        "http://zilogz80:1470741Zilog@142.111.67.146:5611",
+        "http://zilogz80:1470741Zilog@194.39.32.164:6461",
+        "http://zilogz80:1470741Zilog@191.96.254.138:6185",
+        "http://zilogz80:1470741Zilog@31.58.9.4:6077"
     ],
     "sleeps": {
         "likes": [
@@ -22,12 +31,12 @@
         ],
         "moeny": [
             [
-                1,
-                3
+                "0.3",
+                "1.3"
             ],
             [
-                3,
-                5
+                "0.1",
+                "0.5"
             ]
         ]
     },
