@@ -72263,6 +72263,8 @@
                 value: function(t) {
                     this.ee.on("updateInventory", t)
                 }
+            },
+             { key: "onBan", value: function (t) { this.ee.on("ban", t) } 
             }, {
                 key: "onShowImage",
                 value: function(t) {
