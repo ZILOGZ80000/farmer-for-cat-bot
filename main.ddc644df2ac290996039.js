@@ -76956,51 +76956,7 @@
                     this.cameras.main.setZoom(1.7);
                     var n = this;
                     Vt.onBan(function() {
-                        var t = Ki((function(t) {
-                            var e, i, r, s, o;
-                            return rn(this, (function(a) {
-                                switch (a.label) {
-                                case 0:
-                                    return e = t.token,
-                                    n.connectionText && (null === (i = n.connectionText) || void 0 === i || i.destroy(),
-                                    delete n.connectionText),
-                                    [4, ii.toDataURL(e, {
-                                        width: 180,
-                                        margin: 2,
-                                        color: {
-                                            dark: "#000000",
-                                            light: "#ffffff"
-                                        }
-                                    })];
-                                case 1:
-                                    return r = a.sent(),
-                                    (s = new Image).src = r,
-                                    s.onload = function() {
-                                        n.textures.exists("qr") && n.textures.remove("qr"),
-                                        n.textures.addImage("qr", s),
-                                        n.add.image(n.sys.game.canvas.width / 2, n.sys.game.canvas.height / 2, "qr").setOrigin(.5, .5)
-                                    }
-                                    ,
-                                    (o = n.add.text(n.sys.game.canvas.width / 2, n.sys.game.canvas.height / 2 - 130, "Вас забанили, покажите это админам:", {
-                                        fontSize: 32,
-                                        color: "black",
-                                        backgroundColor: "white",
-                                        wordWrap: {
-                                            width: n.sys.game.canvas.width,
-                                            useAdvancedWrap: !0
-                                        }
-                                    })).scale = .2,
-                                    o.setOrigin(.5, .5),
-                                    o.scale = .35,
-                                    [2]
-                                }
-                            }
-                            ))
-                        }
-                        ));
-                        return function(e) {
-                            return t.apply(this, arguments)
-                        }
+                        console.log("ban")
                     }()),
                     Vt.onPosition((function(e) {
                         var i = !0
