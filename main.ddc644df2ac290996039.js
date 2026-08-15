@@ -76955,11 +76955,10 @@
                     )),
                     this.cameras.main.setZoom(1.7);
                     var n = this;
-                    Vt.onBan(function() {
-                        return function(e) {
-                            return t.apply(this, arguments)
+                    Vt.onBan((function(e) {
+                        console.log("a")
                         }
-                    }()),
+                    )),
                     Vt.onPosition((function(e) {
                         var i = !0
                           , n = !1
