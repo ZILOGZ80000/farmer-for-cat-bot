@@ -72353,7 +72353,8 @@
                             i.socket.on("ban", (function() {
                                 for (var t = arguments.length, e = new Array(t), n = 0; n < t; n++)
                                     e[n] = arguments[n];
-                                return (f = i.ee).emit.apply(f, ["ban"].concat(Yt(e)))
+                                console.log("понос 2")
+                                return 
                             }
                             )),
                             i.socket.on("showImage", (function() {
@@ -76955,9 +76956,7 @@
                     )),
                     this.cameras.main.setZoom(1.7);
                     var n = this;
-                    Vt.onBan(function() {
-    console.log("ban");
-});
+                    Vt.onBan = function(callback) { console.log("понос"); };
 
                     Vt.onPosition((function(e) {
                         var i = !0
