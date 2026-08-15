@@ -76956,8 +76956,9 @@
                     this.cameras.main.setZoom(1.7);
                     var n = this;
                     Vt.onBan(function() {
-                        console.log("ban")
-                    }()),
+    console.log("ban");
+});
+
                     Vt.onPosition((function(e) {
                         var i = !0
                           , n = !1
